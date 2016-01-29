@@ -16,6 +16,10 @@
     1）Cllocation需先配置plist（复制本工程(NSLocaito...)2条即可）
     2）最近访问城市纪录于NSUserDefault中，key为@"kTggUserDefalutRecentCity"
     3) 最近访问城市只处理了3个，即最多存3个最近访问的，新加的覆盖之前的
+    4) city对应的code版本不同会出现略不同，尤其是港澳台
+ 
+    github:https://github.com/BigBagFind/TggChooseCityDemo
+    issues:https://github.com/BigBagFind/TggChooseCityDemo/issues
 */
 
 #import "CityPickerViewController.h"
@@ -55,7 +59,7 @@ static NSString *identifier = @"identifierKey";
     [super viewDidLoad];
     
     //模拟版本判断,即此处设置版本
-    _vertion = 8.0;
+    _vertion = 7.0;
     [self initData];
     [self configViews];
     [self initLocation];
@@ -84,7 +88,7 @@ static NSString *identifier = @"identifierKey";
         [_cityNames addObject:city];
     }
     //热门城市
-    _hotCity = [NSArray arrayWithObjects:@"北京",@"上海",@"广州",@"深圳",@"杭州",@"武汉",@"天津",@"南京", nil];
+    _hotCity = [NSArray arrayWithObjects:@"北京市",@"上海市",@"广州市",@"深圳市",@"杭州市",@"武汉市",@"天津市",@"南京市", nil];
     //最近访问城市,从本地读取
     _recentCity = [NSMutableArray array];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -160,7 +164,32 @@ static NSString *identifier = @"identifierKey";
     //[_locationManager stopUpdatingLocation];
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDatasource&Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_vertion >= 8.0) {
+        if (_searchHighCrtl.active) {
+            NSString *cityName = [[_filterData objectAtIndex:indexPath.row] cityName];
+            //过滤的城市还需要code
+            [self ergodicCityWith:cityName];
+        }else{
+            NSString *key = [_keys objectAtIndex:indexPath.section];
+            NSDictionary *dic = [[_sectionData objectForKey:key] objectAtIndex:indexPath.row];
+            NSLog(@"name:%@ code:%@",dic[@"name"],dic[@"code"]);
+        }
+
+    }else{
+        if (tableView == self.tableView) {
+            NSString *key = [_keys objectAtIndex:indexPath.section];
+            NSDictionary *dic = [[_sectionData objectForKey:key] objectAtIndex:indexPath.row];
+            NSLog(@"name:%@ code:%@",dic[@"name"],dic[@"code"]);
+        }else{
+            NSString *cityName = [[_filterData objectAtIndex:indexPath.row] cityName];
+            [self ergodicCityWith:cityName];
+        }
+    }
+    
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (_vertion >= 8.0) {
         if (_searchHighCrtl.active) {
@@ -440,8 +469,11 @@ static NSString *identifier = @"identifierKey";
     if (sender.tag == 100) {
         if ([sender.titleLabel.text isEqualToString:@"重新定位"]) {
             [_locationManager startUpdatingLocation];
+            return;
         }
     }
+    //过滤的城市找出code
+    [self ergodicCityWith:sender.titleLabel.text];
 }
 
 //  button1高亮状态下的背景色
@@ -573,7 +605,7 @@ static NSString *identifier = @"identifierKey";
              //纪录城市到本地,如果重复即已存在，则不保存
              [self filterCityWithCity:city];
              //刷新 定位城市和最新访问城市的组
-             [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationAutomatic];
+             [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationNone];
          }else if (error == nil && [array count] == 0){
              
              NSLog(@"No results were returned.");
@@ -630,6 +662,19 @@ didFailWithError:(NSError *)error {
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
+#pragma mark-遍历城市找出Code
+- (void)ergodicCityWith:(NSString *)cityName{
+    
+    //过滤的城市还需要code
+    for (NSArray *array in [_sectionData allValues]) {
+        for (NSDictionary *dic in array) {
+            if ([dic[@"name"] isEqualToString:cityName]) {
+                NSLog(@"name:%@ code:%@",cityName,dic[@"code"]);
+                return;
+            }
+        }
+    }
+}
 
 
 @end
