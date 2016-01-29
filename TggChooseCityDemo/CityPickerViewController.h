@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface CityPickerViewController : UITableViewController<UISearchBarDelegate,UISearchResultsUpdating,UISearchDisplayDelegate>
+@interface CityPickerViewController : UITableViewController<UISearchBarDelegate,UISearchResultsUpdating,UISearchDisplayDelegate,CLLocationManagerDelegate>
 
 @end

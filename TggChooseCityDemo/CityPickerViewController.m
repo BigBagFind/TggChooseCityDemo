@@ -6,8 +6,21 @@
 //  Copyright © 2016年 铁哥. All rights reserved.
 //
 
+#warning 用前须知：👇👇👇👇👇
+/*
+    缺点：
+    1） 8.0以上的版本未添加单独的resultController，效果为搜索视图没有backgroundView，8.0改进请添加resultViewController
+    2） city列表为死数据，如需更新，参考ViewController中重新配置导入
+    3） 最近访问城市如是登录用户的私有信息，则需存到服务器用户帐号下，不能直接存于本地
+    注意事项：
+    1）Cllocation需先配置plist（复制本工程(NSLocaito...)2条即可）
+    2）最近访问城市纪录于NSUserDefault中，key为@"kTggUserDefalutRecentCity"
+    3) 最近访问城市只处理了3个，即最多存3个最近访问的，新加的覆盖之前的
+*/
+
 #import "CityPickerViewController.h"
 #import "City.h"
+#define kTggUserDefalutRecentCity   @"kTggUserDefalutRecentCity"
 
 static NSString *identifier = @"identifierKey";
 
@@ -24,6 +37,7 @@ static NSString *identifier = @"identifierKey";
     UISearchController *_searchHighCrtl;
     UISearchDisplayController *_searchLowCrtl;
     UILabel *_scaleTip;
+    CLLocationManager *_locationManager;
 }
 
 @end
@@ -44,7 +58,7 @@ static NSString *identifier = @"identifierKey";
     _vertion = 8.0;
     [self initData];
     [self configViews];
-    
+    [self initLocation];
     self.title = @"PickCity";
 }
 
@@ -71,22 +85,12 @@ static NSString *identifier = @"identifierKey";
     }
     //热门城市
     _hotCity = [NSArray arrayWithObjects:@"北京",@"上海",@"广州",@"深圳",@"杭州",@"武汉",@"天津",@"南京", nil];
-    
-    //先写到本地
-//    //获取应用沙盒的Douch
-//    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
-//    NSString* plist1 = [paths objectAtIndex:0];
-//    //获取一个plist文件
-//    NSString* filename = [plist1 stringByAppendingString:@"cityCode.plist"];
-//    // [data writeToFile:filename atomically:YES];
-//    NSLog(@"%@",filename);
-//    NSMutableDictionary *dataDic = [NSMutableDictionary dictionary];
-    //NSMutableArray *cityData = [NSMutableArray array];
-    //[cityData addObject:dic];
-   //[cityData writeToFile:filename atomically:YES];
-    
-    
+    //最近访问城市,从本地读取
+    _recentCity = [NSMutableArray array];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    _recentCity = [NSMutableArray arrayWithArray:[userDefaults objectForKey:kTggUserDefalutRecentCity]];
 }
+
 - (void)configViews{
     //注册单元格
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:identifier];
@@ -123,6 +127,37 @@ static NSString *identifier = @"identifierKey";
         _searchLowCrtl.searchResultsDataSource = self;
         searchBar.delegate = self;
     }
+}
+
+#pragma mark-配置locationManager
+- (void)initLocation{
+    //判断定位操作是否被允许
+    if([CLLocationManager locationServicesEnabled]) {
+        //1.创建CLLocationManage
+        _locationManager = [[CLLocationManager alloc] init] ;
+        //2.设置CLLocationManage实例委托和精度
+        _locationManager.delegate = self;
+        if (_vertion >= 8.0) {
+            [_locationManager requestWhenInUseAuthorization];
+        }
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        //3.设置距离筛选器distanceFilter，下面表示设备至少移动1000米，才通知delegate
+        //_locationManager.distanceFilter = 1000.0f;
+    }else {
+        //提示用户无法进行定位操作
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"定位不成功 ,请确认开启定位" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{
+            
+        }];
+    }
+    //4.启动请求
+    [_locationManager startUpdatingLocation];
+    //5.停止请求
+    //[_locationManager stopUpdatingLocation];
 }
 
 #pragma mark - Table view data source
@@ -337,7 +372,10 @@ static NSString *identifier = @"identifierKey";
         {
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.frame = CGRectMake(spaceWidth, 10, 80, 40);
-            [btn setTitle:@"杭州市" forState:UIControlStateNormal];
+            [btn setTitle:@"定位中..." forState:UIControlStateNormal];
+            if (_currentCity && _currentCity.length > 0) {
+                [btn setTitle:_currentCity forState:UIControlStateNormal];
+            }
             [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
             btn.layer.borderWidth = 0.5;
             [btn addTarget:self action:@selector(button1BackGroundHighlighted:) forControlEvents:UIControlEventTouchDown];
@@ -346,23 +384,26 @@ static NSString *identifier = @"identifierKey";
             btn.layer.borderColor = [UIColor colorWithRed:230 / 255.0 green:230 / 255.0 blue:230 / 255.0 alpha:1.0].CGColor;
             btn.layer.cornerRadius = 3;
             btn.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
+            btn.tag = 100;
             [cell.contentView addSubview:btn];
         }
             break;
         case 1: // 最近城市
         {
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            btn.frame = CGRectMake(spaceWidth, 10, 80, 40);
-            [btn setTitle:@"杭州市" forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-            btn.layer.borderWidth = 0.5;
-            [btn addTarget:self action:@selector(button1BackGroundHighlighted:) forControlEvents:UIControlEventTouchDown];
-            [btn addTarget:self action:@selector(button1BackGroundNormal:) forControlEvents:UIControlEventTouchUpInside];
-            btn.layer.borderWidth = 0.5;
-            btn.layer.borderColor = [UIColor colorWithRed:230 / 255.0 green:230 / 255.0 blue:230 / 255.0 alpha:1.0].CGColor;
-            btn.layer.cornerRadius = 3;
-            btn.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
-            [cell.contentView addSubview:btn];
+            for (NSInteger i = 0; i < _recentCity.count; i++) {
+                UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+                btn.frame = CGRectMake(spaceWidth + (80 + spaceWidth ) * ( i % 3), 10 + (40 + 10 ) * ( i / 3), 80, 40);
+                [btn setTitle:_recentCity[i] forState:UIControlStateNormal];
+                [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                btn.layer.borderWidth = 0.5;
+                btn.layer.borderColor = [UIColor colorWithRed:230 / 255.0 green:230 / 255.0 blue:230 / 255.0 alpha:1.0].CGColor;
+                btn.layer.cornerRadius = 3;
+                [btn addTarget:self action:@selector(button1BackGroundHighlighted:) forControlEvents:UIControlEventTouchDown];
+                [btn addTarget:self action:@selector(button1BackGroundNormal:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.contentView addSubview:btn];
+                btn.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
+            }
+
         }
             break;
         case 2: // 热门城市
@@ -395,6 +436,12 @@ static NSString *identifier = @"identifierKey";
 //  button1普通状态下的背景色
 - (void)button1BackGroundNormal:(UIButton *)sender{
     sender.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
+    //如果是第定位按钮，又是定位失败，点击即可充新定位
+    if (sender.tag == 100) {
+        if ([sender.titleLabel.text isEqualToString:@"重新定位"]) {
+            [_locationManager startUpdatingLocation];
+        }
+    }
 }
 
 //  button1高亮状态下的背景色
@@ -418,7 +465,7 @@ static NSString *identifier = @"identifierKey";
     _scaleTip.layer.masksToBounds = YES;
     _scaleTip.layer.cornerRadius = 10;
     _scaleTip.alpha = 1.0;
-    [UIView animateWithDuration:0.8 animations:^{
+    [UIView animateWithDuration:1.0 animations:^{
         _scaleTip.alpha = 0.0;
     }];
 }
@@ -477,7 +524,7 @@ static NSString *identifier = @"identifierKey";
     }
 }
 
-
+//8.0以下将noresult标签改为 无结果
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 
 {
@@ -501,7 +548,87 @@ static NSString *identifier = @"identifierKey";
     return YES;
 }
 
-#warning 缺点：8.0以上的版本未添加单独的resultController，搜索视图没有backgroundView，8.0改进请添加resultViewController
+
+#pragma mark - CoreLocation Delegate
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    //此处locations存储了持续更新的位置坐标值，取最后一个值为最新位置，如果不想让其持续更新位置，则在此方法中获取到一个值之后让locationManager stopUpdatingLocation
+    CLLocation *currentLocation = [locations lastObject];
+    // 获取当前所在的城市名
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    //根据经纬度反向地理编译出地址信息
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *array, NSError *error){
+         if (array.count > 0){
+             CLPlacemark *placemark = [array objectAtIndex:0];
+             //将获得的所有信息显示到label上
+             NSLog(@"%@",placemark.name);
+             //获取城市
+             NSString *city = placemark.locality;
+             if (!city){
+                 //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
+                 city = placemark.administrativeArea;
+                 
+             }
+             //或得最终当前城市
+             _currentCity = city;
+             //纪录城市到本地,如果重复即已存在，则不保存
+             [self filterCityWithCity:city];
+             //刷新 定位城市和最新访问城市的组
+             [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationAutomatic];
+         }else if (error == nil && [array count] == 0){
+             
+             NSLog(@"No results were returned.");
+             
+         }else if (error != nil){
+             
+             NSLog(@"An error occurred = %@", error);
+             
+         }
+         
+     }];
+    //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
+    [manager stopUpdatingLocation];
+    
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+didFailWithError:(NSError *)error {
+    if (error.code == kCLErrorDenied) {
+        NSLog(@"%@",error);
+        // 提示用户出错原因，可按住Option键点击 KCLErrorDenied的查看更多出错信息，可打印error.code值查找原因所在
+        //提示用户无法进行定位操作
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"定位不成功,请进入设置仔细确认是否开启定位" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{
+            
+        }];
+        //刷新定位城市组ui
+        _currentCity = @"重新定位";
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    
+}
+
+#pragma mark-过滤重复的city
+- (void)filterCityWithCity:(NSString *)city{
+    for (NSString *cityName in _recentCity) {
+        if ([city isEqualToString:cityName]) {
+            return;
+        }
+    }
+    //如为新数据则添加进来
+    [_recentCity addObject:city];
+    
+    //大于3个进行覆盖
+    if (_recentCity.count > 3) {
+        [_recentCity removeObjectAtIndex:0];
+    }
+    //同步本地数据
+    [[NSUserDefaults standardUserDefaults]setObject:_recentCity forKey:kTggUserDefalutRecentCity];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
 
 
 

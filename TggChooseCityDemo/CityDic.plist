@@ -473,27 +473,15 @@
 			</dict>
 			<dict>
 				<key>code</key>
-				<string>361000</string>
+				<string>350100</string>
 				<key>name</key>
-				<string>抚州市</string>
+				<string>福州市</string>
 			</dict>
 			<dict>
 				<key>code</key>
 				<string>210400</string>
 				<key>name</key>
 				<string>抚顺市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>361000</string>
-				<key>name</key>
-				<string>抚州市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>361000</string>
-				<key>name</key>
-				<string>抚州市</string>
 			</dict>
 		</array>
 		<key>G</key>
@@ -1697,18 +1685,6 @@
 			</dict>
 			<dict>
 				<key>code</key>
-				<string>331000</string>
-				<key>name</key>
-				<string>台州市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>331000</string>
-				<key>name</key>
-				<string>台州市</string>
-			</dict>
-			<dict>
-				<key>code</key>
 				<string>710100</string>
 				<key>name</key>
 				<string>台北市</string>
@@ -1738,10 +1714,10 @@
 				<string>台州市</string>
 			</dict>
 			<dict>
-				<key>code</key>
-				<string>331000</string>
 				<key>name</key>
-				<string>台州市</string>
+				<string>泰州市</string>
+				<key>code</key>
+				<string>321200</string>
 			</dict>
 			<dict>
 				<key>code</key>
@@ -2156,9 +2132,9 @@
 			</dict>
 			<dict>
 				<key>code</key>
-				<string>360900</string>
+				<string>230700</string>
 				<key>name</key>
-				<string>宜春市</string>
+				<string>伊春市</string>
 			</dict>
 			<dict>
 				<key>code</key>
@@ -2177,18 +2153,6 @@
 				<string>210800</string>
 				<key>name</key>
 				<string>营口市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>360900</string>
-				<key>name</key>
-				<string>宜春市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>360900</string>
-				<key>name</key>
-				<string>宜春市</string>
 			</dict>
 			<dict>
 				<key>code</key>
@@ -2216,9 +2180,9 @@
 			</dict>
 			<dict>
 				<key>code</key>
-				<string>610800</string>
+				<string>450900</string>
 				<key>name</key>
-				<string>榆林市</string>
+				<string>玉林市</string>
 			</dict>
 			<dict>
 				<key>code</key>
@@ -2231,18 +2195,6 @@
 				<string>530400</string>
 				<key>name</key>
 				<string>玉溪市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>610800</string>
-				<key>name</key>
-				<string>榆林市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>610800</string>
-				<key>name</key>
-				<string>榆林市</string>
 			</dict>
 			<dict>
 				<key>code</key>
@@ -2402,12 +2354,6 @@
 				<string>510300</string>
 				<key>name</key>
 				<string>自贡市</string>
-			</dict>
-			<dict>
-				<key>code</key>
-				<string>659000</string>
-				<key>name</key>
-				<string>自治区直辖县级行政区划</string>
 			</dict>
 			<dict>
 				<key>code</key>
