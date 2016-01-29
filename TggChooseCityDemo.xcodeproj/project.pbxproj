@@ -15,6 +15,16 @@
 		8123E7601C586B7F00E595AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8123E75E1C586B7F00E595AB /* LaunchScreen.storyboard */; };
 		8123E76B1C586B7F00E595AB /* TggChooseCityDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123E76A1C586B7F00E595AB /* TggChooseCityDemoTests.m */; };
 		8123E7761C586B7F00E595AB /* TggChooseCityDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123E7751C586B7F00E595AB /* TggChooseCityDemoUITests.m */; };
+		8123E7841C586BA200E595AB /* CityList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8123E7831C586BA200E595AB /* CityList.plist */; };
+		8123E7861C5870A600E595AB /* city.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8123E7851C5870A600E595AB /* city.xml */; };
+		8123E78A1C587AF400E595AB /* ProvinceList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8123E7891C587AF400E595AB /* ProvinceList.plist */; };
+		8123E78C1C58A1FD00E595AB /* citydict.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8123E78B1C58A1FD00E595AB /* citydict.plist */; };
+		8123E78E1C58B0E400E595AB /* CityDic.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8123E78D1C58B0E400E595AB /* CityDic.plist */; };
+		8123E7911C58B32B00E595AB /* CityPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123E7901C58B32B00E595AB /* CityPickerViewController.m */; };
+		8162BA041C59C02600B3603D /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 8162BA031C59C02600B3603D /* City.m */; };
+		8162BA061C59EAF100B3603D /* CityFilter.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8162BA051C59EAF100B3603D /* CityFilter.plist */; };
+		8162BA081C59EE0500B3603D /* hud_tip_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162BA071C59EE0500B3603D /* hud_tip_new.png */; };
+		8162BA0A1C5A01E900B3603D /* light_blur.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162BA091C5A01E900B3603D /* light_blur.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +61,18 @@
 		8123E7711C586B7F00E595AB /* TggChooseCityDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TggChooseCityDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8123E7751C586B7F00E595AB /* TggChooseCityDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TggChooseCityDemoUITests.m; sourceTree = "<group>"; };
 		8123E7771C586B7F00E595AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8123E7831C586BA200E595AB /* CityList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CityList.plist; sourceTree = "<group>"; };
+		8123E7851C5870A600E595AB /* city.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = city.xml; sourceTree = "<group>"; };
+		8123E7891C587AF400E595AB /* ProvinceList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ProvinceList.plist; sourceTree = "<group>"; };
+		8123E78B1C58A1FD00E595AB /* citydict.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = citydict.plist; sourceTree = "<group>"; };
+		8123E78D1C58B0E400E595AB /* CityDic.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CityDic.plist; sourceTree = "<group>"; };
+		8123E78F1C58B32B00E595AB /* CityPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityPickerViewController.h; sourceTree = "<group>"; };
+		8123E7901C58B32B00E595AB /* CityPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityPickerViewController.m; sourceTree = "<group>"; };
+		8162BA021C59C02600B3603D /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		8162BA031C59C02600B3603D /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		8162BA051C59EAF100B3603D /* CityFilter.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CityFilter.plist; sourceTree = "<group>"; };
+		8162BA071C59EE0500B3603D /* hud_tip_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_tip_new.png; sourceTree = "<group>"; };
+		8162BA091C5A01E900B3603D /* light_blur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_blur.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,10 +127,22 @@
 				8123E7541C586B7F00E595AB /* AppDelegate.m */,
 				8123E7561C586B7F00E595AB /* ViewController.h */,
 				8123E7571C586B7F00E595AB /* ViewController.m */,
+				8162BA021C59C02600B3603D /* City.h */,
+				8162BA031C59C02600B3603D /* City.m */,
+				8123E78F1C58B32B00E595AB /* CityPickerViewController.h */,
+				8123E7901C58B32B00E595AB /* CityPickerViewController.m */,
+				8162BA051C59EAF100B3603D /* CityFilter.plist */,
+				8123E7831C586BA200E595AB /* CityList.plist */,
+				8123E78B1C58A1FD00E595AB /* citydict.plist */,
+				8123E78D1C58B0E400E595AB /* CityDic.plist */,
 				8123E7591C586B7F00E595AB /* Main.storyboard */,
+				8123E7891C587AF400E595AB /* ProvinceList.plist */,
+				8162BA071C59EE0500B3603D /* hud_tip_new.png */,
+				8162BA091C5A01E900B3603D /* light_blur.png */,
 				8123E75C1C586B7F00E595AB /* Assets.xcassets */,
 				8123E75E1C586B7F00E595AB /* LaunchScreen.storyboard */,
 				8123E7611C586B7F00E595AB /* Info.plist */,
+				8123E7851C5870A600E595AB /* city.xml */,
 				8123E7501C586B7F00E595AB /* Supporting Files */,
 			);
 			path = TggChooseCityDemo;
@@ -244,8 +278,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				8123E7601C586B7F00E595AB /* LaunchScreen.storyboard in Resources */,
+				8123E7861C5870A600E595AB /* city.xml in Resources */,
+				8162BA081C59EE0500B3603D /* hud_tip_new.png in Resources */,
+				8123E78A1C587AF400E595AB /* ProvinceList.plist in Resources */,
+				8162BA0A1C5A01E900B3603D /* light_blur.png in Resources */,
+				8123E78E1C58B0E400E595AB /* CityDic.plist in Resources */,
+				8123E7841C586BA200E595AB /* CityList.plist in Resources */,
 				8123E75D1C586B7F00E595AB /* Assets.xcassets in Resources */,
 				8123E75B1C586B7F00E595AB /* Main.storyboard in Resources */,
+				8123E78C1C58A1FD00E595AB /* citydict.plist in Resources */,
+				8162BA061C59EAF100B3603D /* CityFilter.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,9 +312,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8162BA041C59C02600B3603D /* City.m in Sources */,
 				8123E7581C586B7F00E595AB /* ViewController.m in Sources */,
 				8123E7551C586B7F00E595AB /* AppDelegate.m in Sources */,
 				8123E7521C586B7F00E595AB /* main.m in Sources */,
+				8123E7911C58B32B00E595AB /* CityPickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +458,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TggChooseCityDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clzx.TggChooseCityDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -425,6 +470,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TggChooseCityDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = clzx.TggChooseCityDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -498,6 +544,7 @@
 				8123E77C1C586B7F00E595AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8123E77D1C586B7F00E595AB /* Build configuration list for PBXNativeTarget "TggChooseCityDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +553,7 @@
 				8123E77F1C586B7F00E595AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8123E7801C586B7F00E595AB /* Build configuration list for PBXNativeTarget "TggChooseCityDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +562,7 @@
 				8123E7821C586B7F00E595AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
