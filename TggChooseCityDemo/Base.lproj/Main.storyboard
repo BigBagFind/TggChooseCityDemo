@@ -29,12 +29,24 @@
                                     <segue destination="knu-Y9-VdL" kind="modal" id="16P-e4-Dis"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="👆(TouchDown)👆" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0V-kJ-Nzo">
+                                <rect key="frame" x="45" y="326" width="230" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="HDL-5g-uo6"/>
+                                    <constraint firstAttribute="width" constant="230" id="aEz-0O-yMP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <color key="textColor" red="0.96078431369999995" green="0.83529411760000005" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="F5a-4H-gAZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="100" id="8NO-9s-L4M"/>
+                            <constraint firstItem="B0V-kJ-Nzo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="B9h-KB-uA5"/>
                             <constraint firstItem="F5a-4H-gAZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="27" id="hx7-0w-hsS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="F5a-4H-gAZ" secondAttribute="trailing" constant="27" id="jPM-sa-g9r"/>
+                            <constraint firstItem="B0V-kJ-Nzo" firstAttribute="top" secondItem="F5a-4H-gAZ" secondAttribute="bottom" constant="32" id="nhI-nO-63M"/>
                         </constraints>
                     </view>
                 </viewController>
