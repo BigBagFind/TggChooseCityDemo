@@ -1,17 +1,9 @@
 # TggChooseCityDemo
 #拼音选择城市，定位城市
-
-##特性：
 ### 模仿 改进美团 选择城市界面
+##特性：
+1.适配8.0上和下的UISearchcontroller和UIDisplaySearchcontroller
+2.增加右侧选中index的提示视图
+3.选择的城市可得到城市名和城市对应code
+
 ![image](https://github.com/BigBagFind/TggChooseCityDemo/blob/master/TggChooseCityDemo/pickCityBpinyin.gif)
-![点击Modal](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5945.PNG)
-
-![定位城市，最近访问城市，热门城市，字母A－Z](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5946.PNG)
-
-![index选择拼音](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5950.PNG)
-
-![index选择拼音](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5951.PNG)
-
-![搜索汉字](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5955.PNG)
-
-![搜索拼音](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5956.PNG)
