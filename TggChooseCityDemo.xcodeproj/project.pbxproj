@@ -31,6 +31,7 @@
 		8162BA061C59EAF100B3603D /* CityFilter.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8162BA051C59EAF100B3603D /* CityFilter.plist */; };
 		8162BA081C59EE0500B3603D /* hud_tip_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162BA071C59EE0500B3603D /* hud_tip_new.png */; };
 		8162BA0A1C5A01E900B3603D /* light_blur.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162BA091C5A01E900B3603D /* light_blur.png */; };
+		817B43311C5F63A400678E59 /* pickCityBpinyin.gif in Resources */ = {isa = PBXBuildFile; fileRef = 817B43301C5F63A400678E59 /* pickCityBpinyin.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		8162BA051C59EAF100B3603D /* CityFilter.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CityFilter.plist; sourceTree = "<group>"; };
 		8162BA071C59EE0500B3603D /* hud_tip_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_tip_new.png; sourceTree = "<group>"; };
 		8162BA091C5A01E900B3603D /* light_blur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_blur.png; sourceTree = "<group>"; };
+		817B43301C5F63A400678E59 /* pickCityBpinyin.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = pickCityBpinyin.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				8123E78D1C58B0E400E595AB /* CityDic.plist */,
 				8123E7591C586B7F00E595AB /* Main.storyboard */,
 				8123E7891C587AF400E595AB /* ProvinceList.plist */,
+				817B43301C5F63A400678E59 /* pickCityBpinyin.gif */,
 				8162BA071C59EE0500B3603D /* hud_tip_new.png */,
 				8162BA091C5A01E900B3603D /* light_blur.png */,
 				8157750C1C5B5922000A82BC /* IMG_5945.PNG */,
@@ -307,6 +310,7 @@
 				815775121C5B5922000A82BC /* IMG_5945.PNG in Resources */,
 				8123E7841C586BA200E595AB /* CityList.plist in Resources */,
 				8123E75D1C586B7F00E595AB /* Assets.xcassets in Resources */,
+				817B43311C5F63A400678E59 /* pickCityBpinyin.gif in Resources */,
 				8123E75B1C586B7F00E595AB /* Main.storyboard in Resources */,
 				8123E78C1C58A1FD00E595AB /* citydict.plist in Resources */,
 				815775151C5B5922000A82BC /* IMG_5951.PNG in Resources */,
