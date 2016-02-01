@@ -3,6 +3,7 @@
 
 ##特性：
 ### 模仿 改进美团 选择城市界面
+![image](https://github.com/BigBagFind/TggChooseCityDemo/blob/master/TggChooseCityDemo/pickCityBpinyin.gif)
 ![点击Modal](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5945.PNG)
 
 ![定位城市，最近访问城市，热门城市，字母A－Z](https://raw.githubusercontent.com/BigBagFind/TggChooseCityDemo/master/TggChooseCityDemo/IMG_5946.PNG)
