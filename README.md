@@ -1,5 +1,5 @@
 
-##模仿 改进美团 选择城市界面拼音选择城市，定位城市
+##  美团 选择城市 拼音选择城市 定位城市 模仿 改进
 
 ### 特性：
 ### 1.适配8.0上和下的UISearchcontroller和UIDisplaySearchcontroller
