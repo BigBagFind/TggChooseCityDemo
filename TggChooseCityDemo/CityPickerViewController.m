@@ -59,7 +59,7 @@ static NSString *identifier = @"identifierKey";
     [super viewDidLoad];
     
     //模拟版本判断,即此处设置版本
-    _vertion = 7.0;
+    _vertion = [[[UIDevice currentDevice] systemVersion] floatValue];
     [self initData];
     [self configViews];
     [self initLocation];
