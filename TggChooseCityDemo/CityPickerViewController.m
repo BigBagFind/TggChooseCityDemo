@@ -59,7 +59,7 @@ static NSString *identifier = @"identifierKey";
     [super viewDidLoad];
     
     //模拟版本判断,即此处设置版本
-    _vertion = 8.0;
+    _vertion = 7.0;
     [self initData];
     [self configViews];
     [self initLocation];
@@ -101,36 +101,16 @@ static NSString *identifier = @"identifierKey";
     self.tableView.sectionIndexColor = [UIColor lightGrayColor];
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     //搜索框使用
-    //需要先判断版本 8.0
-    if (_vertion >= 8.0) {
-        _searchHighCrtl = [[UISearchController alloc] initWithSearchResultsController: nil];
-        _searchHighCrtl.searchResultsUpdater = self;
-        _searchHighCrtl.dimsBackgroundDuringPresentation = NO;
-        _searchHighCrtl.hidesNavigationBarDuringPresentation = YES;
-        _searchHighCrtl.searchBar.placeholder = @"输入城市名或拼音";
-        _searchHighCrtl.searchBar.delegate = self;
-        [_searchHighCrtl.searchBar sizeToFit];
-        _searchHighCrtl.searchBar.frame = CGRectMake(_searchHighCrtl.searchBar.frame.origin.x, _searchHighCrtl.searchBar.frame.origin.y, _searchHighCrtl.searchBar.frame.size.width, 44.0);
-        self.tableView.tableHeaderView = _searchHighCrtl.searchBar;
-        //添加noresult标签
-        UILabel *noResult = [[UILabel alloc]init];
-        noResult.frame = CGRectMake(0, 44 * 3 + 64, self.view.frame.size.width, 44);
-        noResult.text = @"无结果";
-        noResult.textColor = [UIColor lightGrayColor];
-        noResult.textAlignment = NSTextAlignmentCenter;
-        noResult.font = [UIFont systemFontOfSize:23];
-        [_searchHighCrtl.view addSubview:noResult];
-    }else{
-        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-        searchBar.placeholder = @"输入城市名或拼音";
-        self.tableView.tableHeaderView = searchBar;
-        _searchLowCrtl = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-        searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-        _searchLowCrtl.delegate = self;
-        _searchLowCrtl.searchResultsDelegate = self;
-        _searchLowCrtl.searchResultsDataSource = self;
-        searchBar.delegate = self;
-    }
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    searchBar.placeholder = @"输入城市名或拼音";
+    self.tableView.tableHeaderView = searchBar;
+    _searchLowCrtl = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    _searchLowCrtl.delegate = self;
+    _searchLowCrtl.searchResultsDelegate = self;
+    _searchLowCrtl.searchResultsDataSource = self;
+    searchBar.delegate = self;
+    
 }
 
 #pragma mark-配置locationManager
@@ -166,226 +146,108 @@ static NSString *identifier = @"identifierKey";
 
 #pragma mark - UITableViewDatasource&Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_vertion >= 8.0) {
-        if (_searchHighCrtl.active) {
-            NSString *cityName = [[_filterData objectAtIndex:indexPath.row] cityName];
-            //过滤的城市还需要code
-            [self ergodicCityWith:cityName];
-        }else{
-            NSString *key = [_keys objectAtIndex:indexPath.section];
-            NSDictionary *dic = [[_sectionData objectForKey:key] objectAtIndex:indexPath.row];
-            NSLog(@"name:%@ code:%@",dic[@"name"],dic[@"code"]);
-        }
-
+    if (tableView == self.tableView) {
+        NSString *key = [_keys objectAtIndex:indexPath.section];
+        NSDictionary *dic = [[_sectionData objectForKey:key] objectAtIndex:indexPath.row];
+        NSLog(@"name:%@ code:%@",dic[@"name"],dic[@"code"]);
     }else{
-        if (tableView == self.tableView) {
-            NSString *key = [_keys objectAtIndex:indexPath.section];
-            NSDictionary *dic = [[_sectionData objectForKey:key] objectAtIndex:indexPath.row];
-            NSLog(@"name:%@ code:%@",dic[@"name"],dic[@"code"]);
-        }else{
-            NSString *cityName = [[_filterData objectAtIndex:indexPath.row] cityName];
-            [self ergodicCityWith:cityName];
-        }
+        NSString *cityName = [[_filterData objectAtIndex:indexPath.row] cityName];
+        [self ergodicCityWith:cityName];
     }
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (_vertion >= 8.0) {
-        if (_searchHighCrtl.active) {
-            return 1;
-        }else{
-           return _keys.count;
-        }
+    if (tableView == self.tableView) {
+        return _keys.count;
     }else{
-        if (tableView == self.tableView) {
-            return _keys.count;
-        }else{
-            return 1;
-        }
+        return 1;
     }
     return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    /*
-        大判断 先对version进行
-    */
-    if (_vertion >= 8.0) {
-        if (_searchHighCrtl.active) {
-            return _filterData.count;
-        }else{
-            if (section < 3) {
-                return 1;
-            }
-            NSString *key = [_keys objectAtIndex:section];
-            NSArray *array = [_sectionData objectForKey:key];
-            return array.count;
+    if (tableView == self.tableView) {
+        if (section < 3) {
+            return 1;
         }
-    }else{
-        if (tableView == self.tableView) {
-            if (section < 3) {
-                return 1;
-            }
-            NSString *key = [_keys objectAtIndex:section];
-            NSArray *array = [_sectionData objectForKey:key];
-            return array.count;
-        }else {
-            //7.0
-            // c忽略大小写，d忽略重音 根据中文和拼音筛选
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityName contains [cd] %@ OR cityLetter BEGINSWITH [cd] %@", _searchLowCrtl.searchBar.text,_searchLowCrtl.searchBar.text];
-            _filterData = [[NSMutableArray alloc] initWithArray:[_cityNames filteredArrayUsingPredicate:predicate]];
-            return _filterData.count;
-        }
+        NSString *key = [_keys objectAtIndex:section];
+        NSArray *array = [_sectionData objectForKey:key];
+        return array.count;
+    }else {
+        //7.0
+        // c忽略大小写，d忽略重音 根据中文和拼音筛选
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityName contains [cd] %@ OR cityLetter BEGINSWITH [cd] %@", _searchLowCrtl.searchBar.text,_searchLowCrtl.searchBar.text];
+        _filterData = [[NSMutableArray alloc] initWithArray:[_cityNames filteredArrayUsingPredicate:predicate]];
+        return _filterData.count;
     }
+
     return 0;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
-    if (_vertion >= 8.0) {
-        if (_searchHighCrtl.active) {
-            return 0;
-        }else{
-            return _indexKeys;
-        }
-    }else{
-        if (tableView == self.tableView) {
-            return _indexKeys;
-        }
-        else
-            return 0;
+    if (tableView == self.tableView) {
+        return _indexKeys;
     }
-    return 0;
+    else
+        return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index{
-    if (_vertion >= 8.0) {
-        if (_searchHighCrtl.active) {
-            return 0;
-        }else{
-            [tableView
-             scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]
-             atScrollPosition:UITableViewScrollPositionTop animated:YES];
-            [self showScaleTipWithTitle:_indexKeys[index]];
-            return index;
-        }
-    }else{
-        //点击索引，列表跳转到对应索引的行
-        if (tableView == self.tableView) {
-            
-            [tableView
-             scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]
-             atScrollPosition:UITableViewScrollPositionTop animated:YES];
-            [self showScaleTipWithTitle:_indexKeys[index]];
-            return index;
-            
-        }else
-           return 0;
-
-    }
-   return 0;
+    //点击索引，列表跳转到对应索引的行
+    if (tableView == self.tableView) {
+        
+        [tableView
+         scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]
+         atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self showScaleTipWithTitle:_indexKeys[index]];
+        return index;
+        
+    }else
+       return 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (_vertion >= 8.0) {
-        if (_searchHighCrtl.active) {
-            return nil;
-        }else
-            return _keys[section];
-    }else{
-        if (tableView == self.tableView) {
-            return _keys[section];
-        }else
-            return nil;
-    }
-    return nil;
+    if (tableView == self.tableView) {
+        return _keys[section];
+    }else
+        return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_vertion >= 8.0) {
-        if (_searchHighCrtl.active) {
-            return 44.f;
-        }else{
-            if (indexPath.section < 2) {
-                return 60.f;
-            }
-            else if (indexPath.section == 2)
-                return 160.f;
-            else
-                return 44.f;
+    if (tableView == self.tableView) {
+        if (indexPath.section < 2) {
+            return 60.f;
         }
+        else if (indexPath.section == 2)
+            return 160.f;
+        else
+            return 44.f;
     }else{
-        if (tableView == self.tableView) {
-            if (indexPath.section < 2) {
-                return 60.f;
-            }
-            else if (indexPath.section == 2)
-                return 160.f;
-            else
-                return 44.f;
-        }else{
-            return 44.f;
-        }
+        return 44.f;
     }
     return 0;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*
-     大判断 先对version进行
-     */
-   
-    if (_vertion >= 8.0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        }
-        if (_searchHighCrtl.active) {
-            if (_filterData.count > 0) {
-                for (UIView *view in cell.contentView.subviews) {
-                    [view removeFromSuperview];
-                }
-                cell.textLabel.text = [[_filterData objectAtIndex:indexPath.row]cityName];
-                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-                UIView *bgView = [[UIView alloc]init];
-                bgView.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
-                cell.selectedBackgroundView = bgView;
-            }
-        }else{
-            [self configCell:cell IndexPath:indexPath];
-            if (indexPath.section < 3) {
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }else{
-                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-                UIView *bgView = [[UIView alloc]init];
-                bgView.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
-                cell.selectedBackgroundView = bgView;
-            }
-        }
-        return cell;
-    }else{
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        }
-        if (tableView == self.tableView) {
-            [self configCell:cell IndexPath:indexPath];
-            if (indexPath.section < 3) {
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }else{
-                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-                UIView *bgView = [[UIView alloc]init];
-                bgView.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
-                cell.selectedBackgroundView = bgView;
-            }
-        }else{
-            cell.textLabel.text = [[_filterData objectAtIndex:indexPath.row]cityName];
-        }
-        return cell;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    
-    return nil;
+    if (tableView == self.tableView) {
+        [self configCell:cell IndexPath:indexPath];
+        if (indexPath.section < 3) {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }else{
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            UIView *bgView = [[UIView alloc]init];
+            bgView.backgroundColor = [UIColor colorWithRed:248 / 255.0 green:248 / 255.0 blue:248 / 255.0 alpha:1.0];
+            cell.selectedBackgroundView = bgView;
+        }
+    }else{
+        cell.textLabel.text = [[_filterData objectAtIndex:indexPath.row]cityName];
+    }
+    return cell;
 }
 
 #pragma mark-配置不同cell
